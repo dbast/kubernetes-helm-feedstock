@@ -24,9 +24,13 @@ build:
       then: make test-unit
     - go-licenses save ./cmd/helm --save_path ../license-files
     - if: unix
-      then: cp bin/helm "$PREFIX/bin/helm"
+      then:
+        - mkdir -p "$PREFIX/bin"
+        - cp bin/helm "$PREFIX/bin/helm"
     - if: win
-      then: copy bin\helm "%LIBRARY_BIN%\helm.exe"
+      then:
+        - if not exist "%LIBRARY_BIN%" mkdir "%LIBRARY_BIN%"
+        - copy bin\helm "%LIBRARY_BIN%\helm.exe"
 
 requirements:
   build:
